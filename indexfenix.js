@@ -205,6 +205,6 @@ app.get('/fenixlongitude', (req, res) => {
 
 // Resto do seu código...
 
-app.listen(3000, () => {
-  console.log('A API está rodando na porta 3000.');
+app.listen(3001, () => {
+  console.log('A API está rodando na porta 3001.');
 });
