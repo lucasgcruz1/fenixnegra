@@ -8,17 +8,19 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-let statusLuz = 'desligado';
+let fenixstatusluz = 'desligado';
 let velocidade = 0;
-let milhas = 'desligado';
+let fenixmilhas = 'desligado';
 let radio = false;
 let som = false;
-let latitude = 0.0;
-let longitude = 0.0;
+let fogo = 'desligado';
+let extra = 'desligado';
+let fenixlatitude = 0.0;
+let fenixlongitude = 0.0;
 
 // Configurações do broker MQTT
 const mqttBroker = 'mqtt://18.231.185.171';
-const mqttTopic = 'luz';
+const mqttTopic = 'fenixnegra';
 
 // Cria um cliente MQTT
 const client = mqtt.connect(mqttBroker);
@@ -31,15 +33,26 @@ function publishToMqtt(message) {
 // Função para processar as mensagens MQTT recebidas
 function processMqttMessage(message) {
   if (message === 'l1') {
-    statusLuz = 'ligado';
+    fenixstatusluz = 'ligado';
   } else if (message === 'l2') {
-    statusLuz = 'desligado';
+    fenixstatusluz = 'desligado';
   }
   if (message === 'm1') {
-    milhas = 'ligado';
+    fenixmilhas = 'ligado';
   } else if (message === 'm2') {
-    milhas = 'desligado';
+    fenixmilhas = 'desligado';
   }
+  if (message === 'f1') {
+    fogo = 'ligado';
+  } else if (message === 'f2') {
+    fogo = 'desligado';
+  }
+  if (message === 'e1') {
+    extra = 'ligado';
+  } else if (message === 'e2') {
+    extra = 'desligado';
+  }
+  
 
   // Aqui você pode adicionar qualquer lógica adicional que desejar
 }
@@ -54,44 +67,80 @@ client.on('message', (topic, message) => {
   processMqttMessage(message.toString());
 });
 
-app.get('/statusLuz', (req, res) => {
-  res.send(statusLuz);
+app.get('/fenixstatusluz', (req, res) => {
+  res.send(fenixstatusluz);
 });
 
-app.post('/statusLuz', (req, res) => {
-  statusLuz = (statusLuz === 'desligado') ? 'ligado' : 'desligado';
+app.post('/fenixstatusluz', (req, res) => {
+  fenixstatusluz = (fenixstatusluz === 'desligado') ? 'ligado' : 'desligado';
 
-  // Envia a mensagem MQTT com base no valor atualizado de statusLuz
-  if (statusLuz === 'ligado') {
+  // Envia a mensagem MQTT com base no valor atualizado de fenixstatusluz
+  if (fenixstatusluz === 'ligado') {
     publishToMqtt('l1');
   } else {
     publishToMqtt('l2');
   }
 
-  res.send(statusLuz);
+  res.send(fenixstatusluz);
 });
 
 
-app.get('/milhas', (req, res) => {
-    res.send(milhas);
+app.get('/fenixmilhas', (req, res) => {
+    res.send(fenixmilhas);
   });
   
-  app.post('/milhas', (req, res) => {
-    milhas = (milhas === 'desligado') ? 'ligado' : 'desligado';
+  app.post('/fenixmilhas', (req, res) => {
+    fenixmilhas = (fenixmilhas === 'desligado') ? 'ligado' : 'desligado';
   
-    // Envia a mensagem MQTT com base no valor atualizado de statusLuz
-    if (milhas === 'ligado') {
+    // Envia a mensagem MQTT com base no valor atualizado de fenixstatusluz
+    if (fenixmilhas === 'ligado') {
       publishToMqtt('m1');
     } else {
       publishToMqtt('m2');
     }
   
-    res.send(milhas);
+    res.send(fenixmilhas);
   });
+
+
+  app.get('/fogo', (req, res) => {
+    res.send(fogo);
+  });
+  
+  app.post('/fogo', (req, res) => {
+    fogo = (fogo === 'desligado') ? 'ligado' : 'desligado';
+  
+    // Envia a mensagem MQTT com base no valor atualizado de fenixstatusluz
+    if (fogo === 'ligado') {
+      publishToMqtt('f1');
+    } else {
+      publishToMqtt('f2');
+    }
+  
+    res.send(fogo);
+  });
+
+  app.get('/extra', (req, res) => {
+    res.send(extra);
+  });
+  
+  app.post('/extra', (req, res) => {
+    extra = (extra === 'desligado') ? 'ligado' : 'desligado';
+  
+    // Envia a mensagem MQTT com base no valor atualizado de fenixstatusluz
+    if (extra === 'ligado') {
+      publishToMqtt('e1');
+    } else {
+      publishToMqtt('e2');
+    }
+  
+    res.send(extra);
+  });
+
  
  
-  app.get('/latitude', (req, res) => {
-    res.send(latitude.toString());
+  app.get('/fenixlatitude', (req, res) => {
+    res.send(fenixlatitude.toString());
   });
 
   
@@ -99,35 +148,55 @@ app.get('/milhas', (req, res) => {
   // Função para processar as mensagens MQTT recebidas
 function processMqttMessage(message) {
   if (message === 'l1') {
-    statusLuz = 'ligado';
+    fenixstatusluz = 'ligado';
   } else if (message === 'l2') {
-    statusLuz = 'desligado';
+    fenixstatusluz = 'desligado';
   }
   if (message === 'm1') {
-    milhas = 'ligado';
+    fenixmilhas = 'ligado';
   } else if (message === 'm2') {
-    milhas = 'desligado';
+    fenixmilhas = 'desligado';
   }
+  if (message === 'f1') {
+    fogo = 'ligado';
+  } else if (message === 'f2') {
+    fogo = 'desligado';
+  }
+  if (message === 'e1') {
+    extra = 'ligado';
+  } else if (message === 'e2') {
+    extra = 'desligado';
+  }
+
+
+
+
+
+
+
+
+
+
 
   if (message.startsWith('lat=')) {
     const numbers = message.match(/-?\d+\.\d+/g);
     if (numbers && numbers.length > 0) {
-      latitude = parseFloat(numbers[0]);
-      console.log(latitude);
+      fenixlatitude = parseFloat(numbers[0]);
+      console.log(fenixlatitude);
     }
   }
 
   if (message.startsWith('long=')) {
     const numbers = message.match(/-?\d+\.\d+/g);
     if (numbers && numbers.length > 0) {
-      longitude = parseFloat(numbers[0]);
-      console.log(longitude);
+      fenixlongitude = parseFloat(numbers[0]);
+      console.log(fenixlongitude);
     }
   }
 }
 
-app.get('/longitude', (req, res) => {
-    res.send(longitude.toString());
+app.get('/fenixlongitude', (req, res) => {
+    res.send(fenixlongitude.toString());
   });
 
    // Função para processar as mensagens MQTT recebidas
