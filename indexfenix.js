@@ -190,9 +190,9 @@ function processMqttMessage(message) {
     extra = 'desligado';
   }
   if (message === 'q1') {
-    extra = 'ligado';
+    luzquarto = 'ligado';
   } else if (message === 'q2') {
-    extra = 'desligado';
+    luzquarto = 'desligado';
   }
 
 
