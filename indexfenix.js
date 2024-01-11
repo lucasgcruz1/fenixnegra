@@ -9,6 +9,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 let fenixstatusluz = 'desligado';
+let luzquarto = 'desligado';
 let velocidade = 0;
 let fenixmilhas = 'desligado';
 let radio = false;
@@ -52,6 +53,11 @@ function processMqttMessage(message) {
   } else if (message === 'e2') {
     extra = 'desligado';
   }
+  if (message === 'q1') {
+    extra = 'ligado';
+  } else if (message === 'q2') {
+    extra = 'desligado';
+  }
   
 
   // Aqui você pode adicionar qualquer lógica adicional que desejar
@@ -84,6 +90,22 @@ app.post('/fenixstatusluz', (req, res) => {
   res.send(fenixstatusluz);
 });
 
+app.get('/luzquarto', (req, res) => {
+  res.send(luzquarto);
+});
+
+app.post('/luzquarto', (req, res) => {
+  luzquarto = (luzquarto === 'desligado') ? 'ligado' : 'desligado';
+
+  // Envia a mensagem MQTT com base no valor atualizado de luzquarto
+  if (luzquarto === 'ligado') {
+    publishToMqtt('q1');
+  } else {
+    publishToMqtt('q2');
+  }
+
+  res.send(luzquarto);
+});
 
 app.get('/fenixmilhas', (req, res) => {
     res.send(fenixmilhas);
@@ -165,6 +187,11 @@ function processMqttMessage(message) {
   if (message === 'e1') {
     extra = 'ligado';
   } else if (message === 'e2') {
+    extra = 'desligado';
+  }
+  if (message === 'q1') {
+    extra = 'ligado';
+  } else if (message === 'q2') {
     extra = 'desligado';
   }
 
