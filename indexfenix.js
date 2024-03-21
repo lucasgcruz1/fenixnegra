@@ -20,7 +20,7 @@ let fenixlatitude = 0.0;
 let fenixlongitude = 0.0;
 
 // Configurações do broker MQTT
-const mqttBroker = 'mqtt://18.231.150.254';
+const mqttBroker = 'mqtt://54.233.152.13';
 const mqttTopic = 'fenixnegra';
 
 // Cria um cliente MQTT
