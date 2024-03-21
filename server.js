@@ -1,7 +1,7 @@
 const mqtt = require('mqtt');
 
 // Configurações do broker MQTT (substitua pelos dados corretos)
-const broker = 'mqtt://endereco_do_broker'; // Por exemplo, 'mqtt://mqtt.example.com'
+const broker = 'mqtt://54.233.152.13'; // Por exemplo, 'mqtt://mqtt.example.com'
 const options = {
   port: 1883, // Porta padrão para conexões MQTT
   clientId: 'mqtt_server', // Identificador único do cliente MQTT
